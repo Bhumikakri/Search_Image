@@ -6,20 +6,24 @@ shobtn.style.display = "none";
 
 // let val = searching.children[1].value;
 // console.log(val)
+// let val = input.value;
 btnn.addEventListener("click",(e)=>{
-    e.preventDefault();
-
+// console.log(val);
+showImage.innerHTML ='';
     let val = input.value;
+    e.preventDefault();
     // let data = await fetch('https://api.unsplash.com/photos/?client_id=qrwMD0m7vvD9Az05YJ9EHH2OPndIKLZdVQuQ7TIfZKc');
     //     let res = await data.json();
-    fetchdata(val);
+    fetchdata(val,1);
     shobtn.style.display = "block";
 })
 
-async function fetchdata(val){
-    let data = await fetch(`https://api.unsplash.com/search/photos/?query=${val}&client_id=qrwMD0m7vvD9Az05YJ9EHH2OPndIKLZdVQuQ7TIfZKc`);
+let page = 1;
+
+async function fetchdata(val,pg){
+    let data = await fetch(`https://api.unsplash.com/search/photos/?page=${pg}&query=${val}&client_id=qrwMD0m7vvD9Az05YJ9EHH2OPndIKLZdVQuQ7TIfZKc`);
     let res = await data.json();
-    // console.log(res);
+    console.log(data);
     showdata(res.results);
 }
 
@@ -27,7 +31,6 @@ async function fetchdata(val){
 
 
 function showdata(result){
-    showImage.innerHTML ='';
     result.forEach((item)=>{
         let image = document.createElement("div");
         image.classList.add("image");
@@ -50,7 +53,10 @@ function showdata(result){
     })
 }
 
-
+shobtn.addEventListener("click", ()=>{
+    page++;
+    fetchdata(input.value,page);
+})
 
 
 
